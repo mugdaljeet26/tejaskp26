@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Tejaskp AI Software</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .employees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 0.5rem 0;
+        }
+        .employee-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            min-height: 250px;
+        }
+        .employee-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #00f2ff, #bc13fe);
+            opacity: 0.8;
+        }
+        .employee-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 242, 255, 0.25);
+            box-shadow: 0 12px 40px 0 rgba(0, 242, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .emp-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .emp-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(188, 19, 254, 0.1));
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #00f2ff;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+        .emp-id-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #00f2ff;
+            background: rgba(0, 242, 255, 0.08);
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 242, 255, 0.15);
+        }
+        .emp-card-body {
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+        .emp-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.3rem;
+            letter-spacing: -0.01em;
+        }
+        .emp-dept-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #bc13fe;
+            background: rgba(188, 19, 254, 0.08);
+            padding: 0.25rem 0.6rem;
+            border-radius: 10px;
+            border: 1px solid rgba(188, 19, 254, 0.15);
+            margin-bottom: 1rem;
+        }
+        .emp-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 0.6rem;
+        }
+        .emp-info-item svg {
+            width: 15px;
+            height: 15px;
+            fill: rgba(255, 255, 255, 0.4);
+        }
+        .emp-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+        .emp-role-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .emp-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .emp-card-actions .admin-action-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .emp-card-actions .admin-action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .emp-card-actions .admin-action-btn.del-btn:hover {
+            background: rgba(255, 62, 62, 0.15);
+            border-color: rgba(255, 62, 62, 0.3);
+            color: #ff3e3e;
+        }
+        .no-employees-card {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+<div class="bg-container"><div class="bg-animation"></div></div>
+<div class="dashboard-wrapper">
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon"><img src="logo.jpg" alt="Tejaskp AI Logo"></div>
+            <h2>Tejaskp AI</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M3,13H11V3H3V13M3,21H11V15H3V21M13,21H21V11H13V21M13,3V9H21V3H13Z"/></svg><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="calendar.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M14,14H7V16H14M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M17,10H7V12H17V10Z"/></svg><span>Attendance</span></a></li>
+            <li class="nav-item"><a href="checkin.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/></svg><span>Check-In/Out</span></a></li>
+            <li class="nav-item"><a href="leave.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,19H5V5H7V7H17V5H19V19M16.5,12L15.1,10.6L12,13.7L10.4,12.1L9,13.5L12,16.5L16.5,12Z"/></svg><span>Leave Requests</span></a></li>
+            <li class="nav-item"><a href="documents.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M12.5,18H11.5V13.5H9L12,10.5L15,13.5H12.5V18M13,9V3.5L18.5,9H13Z"/></svg><span>Weekly Submission</span></a></li>
+
+            <li class="nav-item"><a href="report.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg><span>Report</span></a></li>
+
+            <li class="nav-item"><a href="admin.html" class="nav-link active"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,11.99H19C18.47,16.11 15.72,19.78 12,20.93V12H5V6.3L12,3.19V11.99Z"/></svg><span>Admin Panel</span></a></li>
+            <li class="nav-item"><a href="settings.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/></svg><span>Settings</span></a></li>
+        </ul>
+        <a href="#" class="nav-link logout" id="logoutBtn"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z"/></svg><span>Logout</span></a>
+    </aside>
+
+    <main class="main-content">
+        <nav class="navbar">
+            <div><h2 style="font-size:1.3rem;font-weight:700">🛡️ Admin Panel</h2><p style="font-size:0.8rem;color:var(--text-dim)">Employee & System Management</p></div>
+            <div class="nav-right">
+                <div class="date-time"><div class="current-time" id="currentTime">--:--</div><div class="current-date" id="currentDate">---</div></div>
+                <div class="profile-sm" id="topProfilePhoto"><svg viewBox="0 0 24 24" fill="var(--text-dim)" style="width:100%;height:100%"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg></div>
+            </div>
+        </nav>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="employees">👥 Employees</button>
+            <button class="admin-tab" data-tab="attendance">📅 Attendance</button>
+            <button class="admin-tab" data-tab="analytics">📊 Analytics</button>
+            <button class="admin-tab" data-tab="leaves">📋 Leaves</button>
+            <button class="admin-tab" data-tab="submissions">📂 Submissions</button>
+            <button class="admin-tab" data-tab="notifications">🔔 Notifications</button>
+            <button class="admin-tab" data-tab="security">🛡️ Network Security</button>
+        </div>
+
+        <!-- TAB: Employees -->
+        <div class="admin-panel" id="tab-employees">
+            <div class="history-header" style="margin-bottom:1.5rem">
+                <h3>Employee Management</h3>
+                <button class="btn btn-primary" id="addEmpBtn" style="width:auto;padding:0.6rem 1.5rem;font-size:0.9rem">+ Add Employee</button>
+            </div>
+            <div class="employees-grid" id="empGrid"></div>
+        </div>
+
+        <!-- TAB: Attendance -->
+        <div class="admin-panel" id="tab-attendance" style="display:none">
+            <div class="history-header" style="margin-bottom:1.5rem">
+                <div>
+                    <h3>Attendance Management</h3>
+                    <p style="font-size:0.85rem;color:var(--text-dim);margin-top:0.2rem" id="selectedEmpLabel">Select an employee to manage attendance</p>
+                </div>
+                <div style="display:flex;gap:1rem">
+                    <select id="empSelector" class="cal-filter-input" style="width:200px;background:rgba(255,255,255,0.05)">
+                        <option value="">Select Employee...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="attendance-table">
+                    <thead><tr><th>Date</th><th>In Time</th><th>Out Time</th><th>Total Hours</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody id="adminAttendanceBody">
+                        <tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-dim)">Please select an employee to view their records.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB: Analytics -->
+        <div class="admin-panel" id="tab-analytics" style="display:none">
+            <div class="metrics-grid">
+                <div class="metric-card"><div class="metric-header"><div class="metric-icon"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:currentColor"><path d="M16,11C17.66,11 18.99,9.66 18.99,8C18.99,6.34 17.66,5 16,5C14.34,5 13,6.34 13,8C13,9.66 14.34,11 16,11M8,11C9.66,11 10.99,9.66 10.99,8C10.99,6.34 9.66,5 8,5C6.34,5 5,6.34 5,8C5,9.66 6.34,11 8,11M8,13C5.67,13 1,14.17 1,16.5V19H15V16.5C15,14.17 10.33,13 8,13M16,13C15.71,13 15.38,13.05 15.03,13.12C16.19,14.08 17,15.21 17,16.5V19H23V16.5C23,14.17 18.33,13 16,13Z"/></svg></div></div><div class="metric-value" id="totalEmpCount">0</div><div class="metric-label">Total Employees</div></div>
+                <div class="metric-card"><div class="metric-header"><div class="metric-icon" style="background:rgba(0,255,136,0.1);color:var(--success-green)"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:currentColor"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"/></svg></div></div><div class="metric-value" style="color:var(--success-green)" id="activeCount">0</div><div class="metric-label">Active Today</div></div>
+                <div class="metric-card"><div class="metric-header"><div class="metric-icon" style="background:rgba(255,204,0,0.1);color:#ffcc00"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:currentColor"><path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3"/></svg></div></div><div class="metric-value" style="color:#ffcc00" id="leaveCount">3</div><div class="metric-label">On Leave</div></div>
+                <div class="metric-card"><div class="metric-header"><div class="metric-icon" style="background:rgba(188,19,254,0.1);color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:currentColor"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/></svg></div></div><div class="metric-value" style="color:var(--accent-purple)">8.2h</div><div class="metric-label">Avg Hours/Day</div></div>
+            </div>
+
+        </div>
+
+        <!-- TAB: Leaves -->
+        <div class="admin-panel" id="tab-leaves" style="display:none">
+            <h3 style="margin-bottom:1.5rem">Leave Requests</h3>
+            <div class="activity-list" id="leaveList"></div>
+        </div>
+
+        <!-- TAB: Submissions -->
+        <div class="admin-panel" id="tab-submissions" style="display:none">
+            <h3 style="margin-bottom:1.5rem">Weekly Document Submissions</h3>
+            <div class="table-wrapper">
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Employee ID</th>
+                            <th>Week Ending</th>
+                            <th>Submission Time</th>
+                            <th>Report File (PDF)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminSubmissionsBody">
+                        <tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-dim)">No submissions received.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB: Notifications -->
+        <div class="admin-panel" id="tab-notifications" style="display:none">
+            <h3 style="margin-bottom:1.5rem">Send Notification</h3>
+            <div class="form-group"><label>To</label><select id="notifTo"><option value="all">All Employees</option></select></div>
+            <div class="form-group"><label>Subject</label><input type="text" id="notifSubject" placeholder="Notification subject..."></div>
+            <div class="form-group"><label>Message</label><textarea id="notifMsg" rows="4" style="width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:12px;padding:1rem;color:white;outline:none;resize:vertical;font-family:inherit" placeholder="Type your message..."></textarea></div>
+            <button class="btn btn-primary" id="sendNotifBtn" style="max-width:200px">Send Notification</button>
+            <div id="notifSuccess" class="success-msg" style="text-align:center;margin-top:1rem">Notification sent successfully!</div>
+            <h3 style="margin:2rem 0 1rem">Sent History</h3>
+            <div class="activity-list" id="notifHistory"></div>
+        </div>
+
+        <!-- TAB: Security -->
+        <div class="admin-panel" id="tab-security" style="display:none">
+            <h3 style="margin-bottom:1.5rem">Network Security Settings</h3>
+            <div class="network-status-card" style="max-width:600px;margin-bottom:2rem">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.5rem">
+                    <span style="font-size:2rem">🔒</span>
+                    <div>
+                        <h4 style="font-weight:600;font-size:1.1rem">Network Guard System</h4>
+                        <p style="color:var(--text-dim);font-size:0.85rem">Automatically monitors employee connections and locks portal access outside authorized IPs.</p>
+                    </div>
+                </div>
+                <div style="background:rgba(0, 0, 0, 0.2);padding:1.5rem;border-radius:12px;border:1px solid rgba(255,255,255,0.05)">
+                    <div style="margin-bottom:1rem">
+                        <label style="display:block;font-size:0.8rem;color:var(--text-dim);margin-bottom:0.4rem">Required Security Protocol</label>
+                        <strong style="color:var(--success-green);font-size:0.95rem">Private Network IP Filtering (Active)</strong>
+                    </div>
+                    <div style="margin-bottom:1rem">
+                        <label style="display:block;font-size:0.8rem;color:var(--text-dim);margin-bottom:0.4rem">Authorized Office IPv4 Address</label>
+                        <strong style="font-size:1.2rem;color:white;letter-spacing:1px">192.168.1.171</strong>
+                    </div>
+                    <div>
+                        <label style="display:block;font-size:0.8rem;color:var(--text-dim);margin-bottom:0.4rem">Bypass Control</label>
+                        <span style="color:var(--accent-blue);font-size:0.85rem">Administrator accounts are automatically exempted from IP filtering checks.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Add/Edit Employee Modal -->
+        <div class="cal-modal-overlay" id="empModal" style="display:none">
+            <div class="cal-modal" style="max-width:500px">
+                <div class="cal-modal-header"><h3 id="empModalTitle">Add Employee</h3><button class="cal-modal-close" id="closeEmpModal">✕</button></div>
+                <div class="cal-modal-body">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="mName" placeholder="John Doe"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="mEmail" placeholder="john@tejaskp.ai"></div>
+                    <div class="form-group"><label>Department</label>
+                        <select id="mDept"><option value="ai-ml">AI / Machine Learning</option><option value="web-development">Web Development</option><option value="ai-research">AI Research</option><option value="engineering">Software Engineering</option><option value="data-science">Data Science</option><option value="product">Product Management</option><option value="design">UI/UX Design</option></select>
+                    </div>
+                    <div class="form-group"><label>Role</label><select id="mRole"><option value="employee">Employee</option><option value="admin">Admin</option></select></div>
+                    <div class="form-group"><label>Contact Number</label><input type="text" id="mPhone" placeholder="+91 98765 43210"></div>
+                    <div class="form-group"><label>Parent Contact Number</label><input type="text" id="mParentPhone" placeholder="+91 98765 43210"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="mPass" placeholder="••••••••"></div>
+                </div>
+                <div class="cal-modal-footer"><button class="btn btn-primary" id="saveEmpBtn" style="max-width:200px">Save</button></div>
+      <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Auth check - admin only
+    const session = JSON.parse(localStorage.getItem('session') || sessionStorage.getItem('session') || 'null');
+    if (!session) { window.location.href = 'index.html'; return; }
+    if (session.role !== 'admin') { window.location.href = 'dashboard.html'; return; }
+    if (session.photo) document.getElementById('topProfilePhoto').innerHTML = `<img src="${session.photo}" alt="">`;
+
+    // Dynamic API Base URL depending on how it is accessed (localhost or Vercel production)
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5000'
+        : window.location.origin;
+
+    // Clock
+    const tick = () => { const n=new Date(); document.getElementById('currentTime').textContent=n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); document.getElementById('currentDate').textContent=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); };
+    setInterval(tick,1000); tick();
+
+    // Helper for making authorized fetch calls
+    const apiFetch = async (endpoint, options = {}) => {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.token}`
+        };
+        const config = {
+            ...options,
+            headers: {
+                ...headers,
+                ...(options.headers || {})
+            }
+        };
+        try {
+            const res = await fetch(`${API_BASE}${endpoint}`, config);
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.message || 'Something went wrong');
+            }
+            return data;
+        } catch (err) {
+            console.error(`API Error: ${err.message}`);
+            alert(`Error: ${err.message}`);
+            return null;
+        }
+    };
+
+    // Tab switching
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-panel').forEach(p => p.style.display = 'none');
+            tab.classList.add('active');
+            const target = tab.dataset.tab;
+            document.getElementById('tab-' + target).style.display = 'block';
+
+            if (target === 'attendance') populateEmpSelector();
+            if (target === 'submissions') renderSubmissionsPanel();
+            if (target === 'leaves') renderLeaves();
+            if (target === 'employees') renderEmployees();
+            if (target === 'notifications') renderNotifHistory();
+        });
+    });
+
+    // --- Employee Management Logic ---
+    let allEmployeesList = [];
+    let editingEmployeeId = null; // Storing Mongo _id of editing employee
+
+    const populateEmpSelector = () => {
+        const selector = document.getElementById('empSelector');
+        selector.innerHTML = '<option value="">Select Employee...</option>';
+        allEmployeesList.forEach(e => {
+            selector.innerHTML += `<option value="${e.empId}">${e.fullName} (${e.empId})</option>`;
+        });
+    };
+
+    document.getElementById('empSelector').addEventListener('change', (e) => {
+        renderIndividualAttendance(e.target.value);
+    });
+
+    window.viewAttendance = (empId) => {
+        const tab = document.querySelector('[data-tab="attendance"]');
+        tab.click();
+        document.getElementById('empSelector').value = empId;
+        renderIndividualAttendance(empId);
+    };
+
+    // Render Individual Attendance
+    const renderIndividualAttendance = async (empId) => {
+        const body = document.getElementById('adminAttendanceBody');
+        const label = document.getElementById('selectedEmpLabel');
+        if (!empId) {
+            body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-dim)">Please select an employee to view their records.</td></tr>';
+            label.textContent = 'Select an employee to manage attendance';
+            return;
+        }
+
+        const emp = allEmployeesList.find(e => e.empId === empId);
+        label.textContent = `Managing Attendance for: ${emp ? emp.fullName : empId}`;
+
+        body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-dim)">Loading attendance records...</td></tr>';
+        
+        const data = await apiFetch(`/api/attendance/employee/${empId}`);
+        if (!data || !data.records || data.records.length === 0) {
+            body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-dim)">No attendance records found for this employee.</td></tr>';
+            return;
+        }
+
+        const records = data.records;
+        body.innerHTML = '';
+        records.forEach((r) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${r.date}</td>
+                <td>${r.checkIn ? new Date(r.checkIn).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '--'}</td>
+                <td>${r.checkOut ? new Date(r.checkOut).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) : '--'}</td>
+                <td>${r.totalHours || '--'}</td>
+                <td><span class="status-badge ${r.status === 'Present' ? 'status-present' : r.status === 'Absent' ? 'status-half' : 'status-late'}">${r.status}</span></td>
+                <td>
+                    <select class="cal-filter-input" style="width:120px;padding:4px;font-size:0.8rem" onchange="updateAttendanceStatus('${r._id}', '${empId}', this.value)">
+                        <option value="Present" ${r.status === 'Present' ? 'selected' : ''}>Present</option>
+                        <option value="Absent" ${r.status === 'Absent' ? 'selected' : ''}>Absent</option>
+                        <option value="Leave" ${r.status === 'Leave' ? 'selected' : ''}>Leave</option>
+                        <option value="Late" ${r.status === 'Late' ? 'selected' : ''}>Late</option>
+                        <option value="Half Day" ${r.status === 'Half Day' ? 'selected' : ''}>Half Day</option>
+                    </select>
+                </td>
+            `;
+            body.appendChild(row);
+        });
+    };
+
+    window.updateAttendanceStatus = async (attendanceRecordId, empId, newStatus) => {
+        const res = await apiFetch(`/api/attendance/${attendanceRecordId}`, {
+            method: 'PUT',
+            body: JSON.stringify({ status: newStatus })
+        });
+        if (res && res.success) {
+            renderIndividualAttendance(empId);
+        }
+    };
+
+    const renderSubmissionsPanel = async () => {
+        const tbody = document.getElementById('adminSubmissionsBody');
+        if (!tbody) return;
+
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-dim)">Loading weekly submissions...</td></tr>';
+        
+        const data = await apiFetch('/api/submissions/all');
+        if (!data || !data.submissions || data.submissions.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:3rem;color:var(--text-dim)">No submissions received yet.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = '';
+        data.submissions.slice().reverse().forEach(s => {
+            const fileLink = s.pdfFile 
+                ? `<a href="${s.pdfFile}" download="${s.pdfFileName || 'submission.pdf'}" style="color:var(--accent-blue);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:4px">📄 ${s.pdfFileName || 'Download PDF'}</a>`
+                : `<a href="#" onclick="alert('Demo File (No actual content uploaded)')" style="color:var(--accent-blue);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:4px">📄 Missing file</a>`;
+            
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${s.empName}</strong></td>
+                    <td style="font-family:monospace;color:var(--accent-blue)">${s.empId}</td>
+                    <td><strong>${new Date(s.weekEnding).toLocaleDateString()}</strong></td>
+                    <td style="font-size:0.85rem">${new Date(s.submittedAt).toLocaleString()}</td>
+                    <td style="font-size:0.85rem;color:var(--accent-blue)">${fileLink}</td>
+                    <td><span class="status-badge status-submitted" style="background:rgba(0,255,136,0.1);color:var(--success-green)">Received</span></td>
+                </tr>
+            `;
+        });
+    };
+
+    // Render employee table
+    const renderEmployees = async () => {
+        const grid = document.getElementById('empGrid');
+        grid.innerHTML = '<div style="text-align:center;width:100%;grid-column:1/-1;padding:3rem;color:var(--text-dim)">Loading employees...</div>';
+
+        const data = await apiFetch('/api/employees');
+        if (!data || !data.employees) {
+            grid.innerHTML = '<div class="no-employees-card">Failed to load employee list.</div>';
+            return;
+        }
+
+        allEmployeesList = data.employees;
+
+        document.getElementById('totalEmpCount').textContent = allEmployeesList.length;
+        // Count active users (isActive property)
+        const activeCount = allEmployeesList.filter(e => e.isActive).length;
+        document.getElementById('activeCount').textContent = activeCount;
+
+        // Populate notification dropdown
+        const notifTo = document.getElementById('notifTo');
+        notifTo.innerHTML = '<option value="all">All Employees</option>';
+        allEmployeesList.forEach(e => notifTo.innerHTML += `<option value="${e.email}">${e.fullName}</option>`);
+
+        if (allEmployeesList.length === 0) {
+            grid.innerHTML = '<div class="no-employees-card">No employees registered yet.</div>';
+            return;
+        }
+        grid.innerHTML = '';
+        allEmployeesList.forEach(e => {
+            const dept = {'ai-ml':'AI/ML','web-development':'Web Dev','ai-research':'AI Research','engineering':'Engineering','data-science':'Data Science','product':'Product','design':'Design'}[e.dept] || e.dept;
+            const initials = e.fullName.split(' ').map(n => n[0]).join('').substring(0, 2);
+            const card = document.createElement('div');
+            card.className = 'employee-card';
+            card.innerHTML = `
+                <div>
+                    <div class="emp-card-header">
+                        <div class="emp-avatar">${initials}</div>
+                        <div class="emp-id-badge">${e.empId}</div>
+                    </div>
+                    <div class="emp-card-body">
+                        <h4 class="emp-name">${e.fullName}</h4>
+                        <div class="emp-dept-badge">${dept}</div>
+                        
+                        <div class="emp-info-item">
+                            <svg viewBox="0 0 24 24"><path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,8L12,13L4,8V6L12,11L20,6V8Z"/></svg>
+                            <span>${e.email}</span>
+                        </div>
+                        <div class="emp-info-item">
+                            <svg viewBox="0 0 24 24"><path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/></svg>
+                            <span><strong>Emp:</strong> ${e.phone || '--'}</span>
+                        </div>
+                        <div class="emp-info-item">
+                            <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
+                            <span><strong>Parent:</strong> ${e.parentPhone || '--'}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="emp-card-footer">
+                    <span class="emp-role-tag">${e.role || 'Employee'}</span>
+                    <div class="emp-card-actions">
+                        <button class="admin-action-btn" onclick="viewAttendance('${e.empId}')" title="View Attendance">📅</button>
+                        <button class="admin-action-btn edit-btn" data-id="${e._id}">✏️</button>
+                        <button class="admin-action-btn del-btn" data-id="${e._id}">🗑️</button>
+                    </div>
+                </div>`;
+            grid.appendChild(card);
+        });
+
+        // Edit buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const emp = allEmployeesList.find(e => e._id === btn.dataset.id);
+                if (!emp) return;
+                editingEmployeeId = emp._id;
+                document.getElementById('empModalTitle').textContent = 'Edit Employee';
+                document.getElementById('mName').value = emp.fullName;
+                document.getElementById('mEmail').value = emp.email;
+                document.getElementById('mDept').value = emp.dept;
+                document.getElementById('mRole').value = emp.role || 'employee';
+                document.getElementById('mPhone').value = emp.phone || '';
+                document.getElementById('mParentPhone').value = emp.parentPhone || '';
+                document.getElementById('mPass').placeholder = 'Leave blank to keep current password';
+                document.getElementById('mPass').value = '';
+                document.getElementById('empModal').style.display = 'flex';
+            });
+        });
+
+        // Delete buttons
+        document.querySelectorAll('.del-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                if (confirm('Remove this employee permanently?')) {
+                    const res = await apiFetch(`/api/employees/${btn.dataset.id}`, { method: 'DELETE' });
+                    if (res && res.success) {
+                        renderEmployees();
+                    }
+                }
+            });
+        });
+    };
+
+    // Add employee button
+    document.getElementById('addEmpBtn').addEventListener('click', () => {
+        editingEmployeeId = null;
+        document.getElementById('empModalTitle').textContent = 'Add Employee';
+        document.getElementById('mName').value = '';
+        document.getElementById('mEmail').value = '';
+        document.getElementById('mPhone').value = '';
+        document.getElementById('mParentPhone').value = '';
+        document.getElementById('mPass').placeholder = 'Password';
+        document.getElementById('mPass').value = '';
+        document.getElementById('empModal').style.display = 'flex';
+    });
+
+    // Save employee
+    document.getElementById('saveEmpBtn').addEventListener('click', async () => {
+        const name = document.getElementById('mName').value.trim();
+        const email = document.getElementById('mEmail').value.trim();
+        const dept = document.getElementById('mDept').value;
+        const role = document.getElementById('mRole').value;
+        const phone = document.getElementById('mPhone').value.trim();
+        const parentPhone = document.getElementById('mParentPhone').value.trim();
+        const pass = document.getElementById('mPass').value;
+
+        if (!name || !email) { alert('Name and Email are required.'); return; }
+        
+        let res;
+        if (editingEmployeeId) {
+            // Edit existing
+            const bodyData = {
+                fullName: name,
+                email,
+                dept,
+                role,
+                phone,
+                parentPhone
+            };
+            if (pass) bodyData.password = pass;
+
+            res = await apiFetch(`/api/employees/${editingEmployeeId}`, {
+                method: 'PUT',
+                body: JSON.stringify(bodyData)
+            });
+        } else {
+            // Add new
+            if (!pass) { alert('Password is required for new employees.'); return; }
+            const bodyData = {
+                fullName: name,
+                email,
+                dept,
+                role,
+                phone,
+                parentPhone,
+                password: pass
+            };
+            res = await apiFetch('/api/employees', {
+                method: 'POST',
+                body: JSON.stringify(bodyData)
+            });
+        }
+
+        if (res && res.success) {
+            document.getElementById('empModal').style.display = 'none';
+            renderEmployees();
+        }
+    });
+
+    // Close modal
+    document.getElementById('closeEmpModal').addEventListener('click', () => document.getElementById('empModal').style.display = 'none');
+    document.getElementById('empModal').addEventListener('click', e => { if (e.target.id === 'empModal') e.target.style.display = 'none'; });
+
+    // --- Leave Management Logic ---
+    window.updateLeaveStatus = async (id, newStatus) => {
+        const res = await apiFetch(`/api/leaves/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify({ status: newStatus })
+        });
+        if (res && res.success) {
+            renderLeaves();
+        }
+    };
+
+    const renderLeaves = async () => {
+        const list = document.getElementById('leaveList');
+        if (!list) return;
+        
+        list.innerHTML = '<p style="color:var(--text-dim);text-align:center;padding:2rem">Loading leave requests...</p>';
+        
+        const data = await apiFetch('/api/leaves/all');
+        if (!data || !data.leaves || data.leaves.length === 0) {
+            list.innerHTML = '<p style="color:var(--text-dim);text-align:center;padding:2rem">No leave requests yet.</p>';
+            return;
+        }
+
+        const leaves = data.leaves;
+        list.innerHTML = '';
+        leaves.forEach((l) => {
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            
+            let statusBadge = '';
+            if (l.status === 'Pending') {
+                statusBadge = `
+                    <div style="display:flex;gap:0.5rem">
+                        <button class="admin-action-btn" onclick="updateLeaveStatus('${l._id}', 'Approved')">✅</button>
+                        <button class="admin-action-btn" onclick="updateLeaveStatus('${l._id}', 'Rejected')">❌</button>
+                    </div>`;
+                item.style.borderLeftColor = '#ffcc00';
+            } else {
+                const color = l.status === 'Approved' ? 'var(--success-green)' : 'var(--error-red)';
+                const bg = l.status === 'Approved' ? 'rgba(0,255,136,0.1)' : 'rgba(255,62,62,0.1)';
+                statusBadge = `<span class="status-badge" style="background:${bg};color:${color}">${l.status}</span>`;
+                item.style.borderLeftColor = color;
+            }
+
+            const initials = l.empName ? l.empName.split(' ').map(n => n[0]).join('').substring(0, 2) : 'EM';
+            const deptText = l.employee && l.employee.dept ? l.employee.dept : l.employee;
+
+            item.innerHTML = `
+                <div class="activity-info" style="flex:1">
+                    <h4>${l.empName || 'Employee'} <span style="color:var(--text-dim);font-weight:400;font-size:0.8rem">(${l.empId || ''})</span></h4>
+                    <p>${l.leaveType}: ${new Date(l.fromDate).toLocaleDateString()} to ${new Date(l.toDate).toLocaleDateString()}</p>
+                    <p style="font-size:0.85rem;color:var(--text-dim);margin-top:0.2rem">Reason: ${l.reason}</p>
+                </div>
+                ${statusBadge}`;
+            list.appendChild(item);
+        });
+    };
+
+    // Send notification
+    document.getElementById('sendNotifBtn').addEventListener('click', async () => {
+        const subj = document.getElementById('notifSubject').value.trim();
+        const msg = document.getElementById('notifMsg').value.trim();
+        const to = document.getElementById('notifTo').value;
+        if (!subj || !msg) { alert('Subject and message are required.'); return; }
+        
+        const res = await apiFetch('/api/notifications', {
+            method: 'POST',
+            body: JSON.stringify({ to, subject: subj, message: msg })
+        });
+
+        if (res && res.success) {
+            document.getElementById('notifSuccess').style.display = 'block';
+            document.getElementById('notifSubject').value = '';
+            document.getElementById('notifMsg').value = '';
+            setTimeout(() => document.getElementById('notifSuccess').style.display = 'none', 3000);
+            renderNotifHistory();
+        }
+    });
+
+    const renderNotifHistory = async () => {
+        const list = document.getElementById('notifHistory');
+        list.innerHTML = '<p style="color:var(--text-dim);text-align:center;padding:2rem">Loading notification history...</p>';
+
+        const data = await apiFetch('/api/notifications/all');
+        if (!data || !data.notifications || data.notifications.length === 0) {
+            list.innerHTML = '<p style="color:var(--text-dim);text-align:center;padding:2rem">No notifications sent yet.</p>';
+            return;
+        }
+
+        list.innerHTML = '';
+        data.notifications.slice(0, 10).forEach(n => {
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.innerHTML = `<div class="activity-info"><h4>${n.subject}</h4><p>To: ${n.to} — ${n.message.substring(0, 60)}...</p></div><div style="margin-left:auto;font-size:0.8rem;color:var(--text-dim)">${new Date(n.createdAt).toLocaleString()}</div>`;
+            list.appendChild(item);
+        });
+    };
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', e => { e.preventDefault(); localStorage.removeItem('session'); sessionStorage.removeItem('session'); window.location.href = 'index.html'; });
+
+    // Init
+    renderEmployees();
+    renderLeaves();
+    renderSubmissionsPanel();
+    renderNotifHistory();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Submission | Tejaskp AI Software</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Document Page Custom Layout Styles */
+        .doc-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .doc-header {
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--text-main);
+        }
+
+        .doc-header p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .top-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 1.5rem;
+        }
+
+        .countdown-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            position: relative;
+            backdrop-filter: blur(15px);
+        }
+
+        .clock-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 62, 62, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--error-red);
+            box-shadow: 0 0 15px rgba(255, 62, 62, 0.1);
+        }
+
+        .countdown-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .timer-display {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: var(--text-main);
+            display: flex;
+            gap: 4px;
+        }
+
+        .timer-unit {
+            color: var(--error-red);
+        }
+
+        .submission-info-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(15px);
+        }
+
+        .sub-info-left {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .sub-info-title {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .sub-info-date {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .sub-info-time {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .priority-badge {
+            background: rgba(255, 62, 62, 0.06);
+            border: 1px solid rgba(255, 62, 62, 0.15);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            color: var(--error-red);
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 1.5rem;
+        }
+
+        /* Calendar Card */
+        .calendar-widget-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .cal-month-year {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cal-nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s;
+        }
+
+        .cal-nav-btn:hover {
+            color: var(--text-main);
+        }
+
+        .cal-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 0.8rem;
+        }
+
+        .cal-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            row-gap: 8px;
+            column-gap: 4px;
+            text-align: center;
+        }
+
+        .cal-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            position: relative;
+            border-radius: 50%;
+            cursor: default;
+        }
+
+        .cal-day.empty {
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .cal-day.today {
+            border: 1.5px solid var(--accent-blue);
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .cal-day.submission-day {
+            background: rgba(0, 242, 255, 0.05);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .cal-day.submission-day .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            position: absolute;
+            bottom: 4px;
+            box-shadow: 0 0 8px var(--accent-blue);
+        }
+
+        .cal-legend {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .legend-color {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Submission Form Card */
+        .form-widget-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.8rem;
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.8rem;
+        }
+
+        .form-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(255, 170, 0, 0.06);
+            border: 1px solid rgba(255, 170, 0, 0.15);
+            color: #ffaa00;
+        }
+
+        .status-submitted {
+            background: rgba(0, 255, 136, 0.06);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+            color: var(--success-green);
+        }
+
+        .upload-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .upload-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dim);
+        }
+
+        .file-dropzone {
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-dropzone:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--accent-blue);
+        }
+
+        .choose-file-btn {
+            background: rgba(0, 242, 255, 0.06);
+            border: 1px solid rgba(0, 242, 255, 0.15);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            transition: all 0.2s;
+        }
+
+        .file-dropzone:hover .choose-file-btn {
+            background: var(--accent-blue);
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .excel-zone .choose-file-btn {
+            background: rgba(0, 255, 136, 0.06);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+            color: var(--success-green);
+        }
+
+        .file-dropzone.excel-zone:hover .choose-file-btn {
+            background: var(--success-green);
+            color: #000;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+        }
+
+        .file-name-display {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .submit-btn {
+            background: var(--neon-gradient);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 0.9rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.15);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 242, 255, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* History Table Card */
+        .history-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(15px);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 1024px) {
+            .top-cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-container"><div class="bg-animation"></div></div>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon"><img src="logo.jpg" alt="Tejaskp AI Logo"></div>
+                <h2>Tejaskp AI</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M3,13H11V3H3V13M3,21H11V15H3V21M13,21H21V11H13V21M13,3V9H21V3H13Z"/></svg><span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="calendar.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M14,14H7V16H14M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M17,10H7V12H17V10Z"/></svg><span>Attendance</span></a></li>
+                <li class="nav-item"><a href="checkin.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/></svg><span>Check-In / Check-Out</span></a></li>
+                <li class="nav-item"><a href="leave.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,19H5V5H7V7H17V5H19V19M16.5,12L15.1,10.6L12,13.7L10.4,12.1L9,13.5L12,16.5L16.5,12Z"/></svg><span>Leave Requests</span></a></li>
+                <li class="nav-item"><a href="documents.html" class="nav-link active"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M12.5,18H11.5V13.5H9L12,10.5L15,13.5H12.5V18M13,9V3.5L18.5,9H13Z"/></svg><span>Weekly Submission</span></a></li>
+
+
+                <li class="nav-item"><a href="report.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg><span>Report</span></a></li>
+                <li class="nav-item"><a href="admin.html" class="nav-link" id="adminLink"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,11.99H19C18.47,16.11 15.72,19.78 12,20.93V12H5V6.3L12,3.19V11.99Z"/></svg><span>Admin Panel</span></a></li>
+                <li class="nav-item"><a href="settings.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/></svg><span>Settings</span></a></li>
+            </ul>
+            <a href="#" class="nav-link logout" id="logoutBtnSidebar"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z"/></svg><span>Logout</span></a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Navbar -->
+            <nav class="navbar">
+                <div><h2 style="font-size:1.3rem;font-weight:700">Weekly Submission</h2><p style="font-size:0.8rem;color:var(--text-dim)">Reports & Data Sheets</p></div>
+                <div class="nav-right">
+                    <div class="date-time"><div class="current-time" id="currentTime">--:--</div><div class="current-date" id="currentDate">---</div></div>
+                    <div class="profile-sm" id="topProfilePhoto"><svg viewBox="0 0 24 24" fill="var(--text-dim)" style="width:100%;height:100%"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg></div>
+                </div>
+            </nav>
+
+            <!-- Document Submission Content -->
+            <div class="doc-layout">
+                <div class="doc-header">
+                    <h2>Weekly Document Submission</h2>
+                    <p>Submit your work report (PDF) and data sheet (Excel) every <strong>Friday by 3:30 PM</strong>.</p>
+                </div>
+
+                <!-- Top Cards Countdown & Submission Details -->
+                <div class="top-cards-grid">
+                    <!-- Countdown Timer -->
+                    <div class="countdown-card">
+                        <div class="clock-icon-wrap">
+                            <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:currentColor"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/></svg>
+                        </div>
+                        <div class="countdown-details">
+                            <div class="countdown-label">DEADLINE IN</div>
+                            <div class="timer-display">
+                                <span id="cd-days">00</span><span class="timer-unit">d</span> : 
+                                <span id="cd-hours">00</span><span class="timer-unit">h</span> : 
+                                <span id="cd-minutes">00</span><span class="timer-unit">m</span> : 
+                                <span id="cd-seconds">00</span><span class="timer-unit">s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Submission Date Info -->
+                    <div class="submission-info-card">
+                        <div class="sub-info-left">
+                            <div class="sub-info-title">
+                                <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M16.5,12L15.1,10.6L12,13.7L10.4,12.1L9,13.5L12,16.5L16.5,12Z"/></svg>
+                                Next Submission Date
+                            </div>
+                            <div class="sub-info-date" id="nextSubmissionDate">Friday, May 22nd, 2026</div>
+                            <div class="sub-info-time">Time: 03:30 PM</div>
+                        </div>
+                        <div class="priority-badge">PRIORITY HIGH</div>
+                    </div>
+                </div>
+
+                <!-- Bottom Layout Grid (Calendar & Form) -->
+                <div class="bottom-grid">
+                    <!-- Left Side Calendar Widget -->
+                    <div class="calendar-widget-card">
+                        <div class="cal-header">
+                            <div class="cal-month-year" id="calendarMonthYear">May 2026</div>
+                            <div style="display:flex;gap:10px">
+                                <button class="cal-nav-btn" onclick="adjustMonth(-1)"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg></button>
+                                <button class="cal-nav-btn" onclick="adjustMonth(1)"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg></button>
+                            </div>
+                        </div>
+                        <div class="cal-weekdays">
+                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                        </div>
+                        <div class="cal-days-grid" id="calendarDays">
+                            <!-- Filled dynamically by JavaScript -->
+                        </div>
+                        <div class="cal-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background:var(--accent-blue);box-shadow:0 0 8px var(--accent-blue)"></span>
+                                <span>Submission Day (Friday)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="border:1.5px solid var(--accent-blue)"></span>
+                                <span>Today</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side Submission Form -->
+                    <div class="form-widget-card">
+                        <div class="form-card-header">
+                            <div class="form-card-title" id="currentWeekLabel">Current Week: 2026-05-17</div>
+                            <span class="status-badge status-pending" id="submissionStatus">Pending</span>
+                        </div>
+
+                        <form id="docSubmitForm" style="display:flex;flex-direction:column;gap:1.2rem">
+                            <!-- PDF Report Uploader -->
+                            <div class="upload-group">
+                                <label class="upload-label">Detailed Report (PDF)</label>
+                                <input type="file" id="pdfFileInput" accept=".pdf" style="display:none">
+                                <div class="file-dropzone" onclick="document.getElementById('pdfFileInput').click()">
+                                    <span class="choose-file-btn">Choose file</span>
+                                    <span class="file-name-display" id="pdfFileName">No file chosen</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="submit-btn" id="submitDocsBtn">Submit Documents</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Submission History Table Card -->
+                <div class="history-card">
+                    <h3 style="margin-bottom:1.2rem;color:var(--text-main)">Submission History</h3>
+                    <div class="table-wrapper">
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Week Starting</th>
+                                    <th>Submission Date</th>
+                                    <th>Report File</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Success Notification -->
+    <div id="settingsToast" style="display:none;position:fixed;top:2rem;right:2rem;z-index:9999;background:var(--glass-bg);border:1px solid var(--success-green);border-radius:14px;padding:1rem 1.5rem;color:var(--success-green);font-weight:600;backdrop-filter:blur(10px);animation:slideIn 0.3s ease">✅ <span id="toastMsg">Submitted successfully!</span></div>
+
+    <script>
+    let calendarDate = new Date(); // Tracks selected month in calendar widget
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Session validation
+        const session = JSON.parse(localStorage.getItem('session') || sessionStorage.getItem('session') || 'null');
+        if (!session) { window.location.href = 'index.html'; return; }
+        if (session.photo) document.getElementById('topProfilePhoto').innerHTML = `<img src="${session.photo}" alt="Profile">`;
+
+        // Admin Link Visibility
+        const adminLink = document.getElementById('adminLink');
+        if (adminLink && session.role !== 'admin') { adminLink.parentElement.style.display = 'none'; }
+
+        // Live Clock
+        const tick = () => { 
+            const n = new Date(); 
+            document.getElementById('currentTime').textContent = n.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); 
+            document.getElementById('currentDate').textContent = n.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'}); 
+        };
+        setInterval(tick, 1000); 
+        tick();
+
+        // ─── Countdown & Deadlines ───
+        const updateTimer = () => {
+            const now = new Date();
+            let nextFriday = new Date();
+            const currentDay = now.getDay();
+            const daysUntilFriday = (5 - currentDay + 7) % 7;
+
+            nextFriday.setDate(now.getDate() + daysUntilFriday);
+            nextFriday.setHours(15, 30, 0, 0);
+
+            if (now > nextFriday) {
+                nextFriday.setDate(nextFriday.getDate() + 7);
+            }
+
+            const diff = nextFriday - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+            document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+
+            // Format ordinal Friday date (e.g. Friday, May 22nd, 2026)
+            const getOrdinal = (d) => {
+                if (d > 3 && d < 21) return 'th';
+                switch (d % 10) {
+                    case 1:  return "st";
+                    case 2:  return "nd";
+                    case 3:  return "rd";
+                    default: return "th";
+                }
+            };
+            const dayName = nextFriday.toLocaleDateString('en-US', { weekday: 'long' });
+            const monthName = nextFriday.toLocaleDateString('en-US', { month: 'long' });
+            const dateNum = nextFriday.getDate();
+            const yearNum = nextFriday.getFullYear();
+            
+            document.getElementById('nextSubmissionDate').innerHTML = `${dayName}, ${monthName} ${dateNum}${getOrdinal(dateNum)}, ${yearNum}`;
+
+            // Set Current Week starting from previous Sunday
+            let prevSunday = new Date(now);
+            prevSunday.setDate(now.getDate() - now.getDay());
+            const yyyy = prevSunday.getFullYear();
+            const mm = String(prevSunday.getMonth() + 1).padStart(2, '0');
+            const dd = String(prevSunday.getDate()).padStart(2, '0');
+            document.getElementById('currentWeekLabel').textContent = `Current Week: ${yyyy}-${mm}-${dd}`;
+        };
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // ─── Calendar Render ───
+        window.renderCalendar = () => {
+            const calendarBody = document.getElementById('calendarDays');
+            const calendarMonthYear = document.getElementById('calendarMonthYear');
+            const now = new Date();
+            const year = calendarDate.getFullYear();
+            const month = calendarDate.getMonth();
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            calendarMonthYear.textContent = `${monthNames[month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const totalDays = new Date(year, month + 1, 0).getDate();
+            
+            let html = '';
+            for (let i = 0; i < firstDay; i++) {
+                html += '<span class="cal-day empty"></span>';
+            }
+            
+            for (let day = 1; day <= totalDays; day++) {
+                const dateObj = new Date(year, month, day);
+                const isFriday = dateObj.getDay() === 5;
+                const isToday = day === now.getDate() && month === now.getMonth() && year === now.getFullYear();
+                
+                let dayClass = 'cal-day';
+                if (isFriday) dayClass += ' submission-day';
+                if (isToday) dayClass += ' today';
+                
+                html += `<span class="${dayClass}">${day}${isFriday ? '<span class="dot"></span>' : ''}</span>`;
+            }
+            
+            calendarBody.innerHTML = html;
+        };
+
+        window.adjustMonth = (amount) => {
+            calendarDate.setMonth(calendarDate.getMonth() + amount);
+            window.renderCalendar();
+        };
+
+        window.renderCalendar();
+
+        // ─── Custom Uploader Text Sync ───
+        const pdfInput = document.getElementById('pdfFileInput');
+
+        let selectedFileBase64 = "";
+
+        pdfInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('pdfFileName').textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    selectedFileBase64 = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('pdfFileName').textContent = "No file chosen";
+                selectedFileBase64 = "";
+            }
+        });
+
+        // Toast Helper
+        const showToast = (msg) => {
+            const t = document.getElementById('settingsToast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 3000);
+        };
+
+        // ─── Submissions Manager ───
+        const renderSubmissions = () => {
+            const allSubmissions = JSON.parse(localStorage.getItem('document_submissions') || '[]');
+            const mySubmissions = allSubmissions.filter(s => s.empId === session.empId).reverse();
+            const tbody = document.getElementById('historyTableBody');
+            
+            // Check if submitted this week
+            const today = new Date();
+            let prevSunday = new Date(today);
+            prevSunday.setDate(today.getDate() - today.getDay());
+            const currentWeekStr = prevSunday.toISOString().split('T')[0];
+
+            const alreadySubmitted = mySubmissions.some(s => s.weekStarting === currentWeekStr);
+            if (alreadySubmitted) {
+                document.getElementById('submissionStatus').textContent = "Submitted";
+                document.getElementById('submissionStatus').className = "status-badge status-submitted";
+                document.getElementById('submitDocsBtn').disabled = false;
+                document.getElementById('submitDocsBtn').textContent = "Submit Another Report";
+            } else {
+                document.getElementById('submissionStatus').textContent = "Pending";
+                document.getElementById('submissionStatus').className = "status-badge status-pending";
+                document.getElementById('submitDocsBtn').disabled = false;
+                document.getElementById('submitDocsBtn').textContent = "Submit Documents";
+            }
+
+            if (mySubmissions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:2rem;color:var(--text-dim)">No submissions recorded.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            mySubmissions.forEach(s => {
+                const fileLink = s.pdfData 
+                    ? `<a href="${s.pdfData}" download="${s.pdfFile}" style="color:var(--accent-blue);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:4px">📄 ${s.pdfFile}</a>`
+                    : `📄 ${s.pdfFile}`;
+                tbody.innerHTML += `<tr>
+                    <td><strong>${s.weekStarting}</strong></td>
+                    <td style="font-size:0.85rem">${new Date(s.submittedAt).toLocaleString()}</td>
+                    <td style="font-size:0.85rem;color:var(--accent-blue)">${fileLink}</td>
+                    <td><span class="status-badge status-submitted">Verified</span></td>
+                </tr>`;
+            });
+        };
+
+        // Form Submit handler
+        document.getElementById('docSubmitForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!pdfInput.files[0]) {
+                showToast("Please choose your report file first!");
+                return;
+            }
+
+            const today = new Date();
+            let prevSunday = new Date(today);
+            prevSunday.setDate(today.getDate() - today.getDay());
+            const currentWeekStr = prevSunday.toISOString().split('T')[0];
+
+            const newSubmission = {
+                id: 'SUB-' + Date.now(),
+                empId: session.empId,
+                empName: session.name || 'Registered Employee',
+                weekStarting: currentWeekStr,
+                submittedAt: new Date().toISOString(),
+                pdfFile: pdfInput.files[0].name,
+                pdfData: selectedFileBase64, // Actual Base64 PDF Data
+                status: 'Verified'
+            };
+
+            const allSubmissions = JSON.parse(localStorage.getItem('document_submissions') || '[]');
+            allSubmissions.push(newSubmission);
+            localStorage.setItem('document_submissions', JSON.stringify(allSubmissions));
+
+            showToast("Weekly report submitted successfully!");
+            document.getElementById('docSubmitForm').reset();
+            document.getElementById('pdfFileName').textContent = "No file chosen";
+            selectedFileBase64 = ""; // Reset Base64 variable
+            renderSubmissions();
+        });
+
+        renderSubmissions();
+
+        // Logout
+        document.getElementById('logoutBtnSidebar').addEventListener('click', e => { 
+            e.preventDefault(); 
+            localStorage.removeItem('session'); 
+            sessionStorage.removeItem('session'); 
+            window.location.href = 'index.html'; 
+        });
+    });
+    </script>
+</body>
+</html>

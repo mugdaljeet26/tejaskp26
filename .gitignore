@@ -1,0 +1,7 @@
+node_modules/
+tejasspk-ai-software/node_modules/
+tejasspk-ai-software/client/node_modules/
+tejasspk-ai-software/.env
+tejasspk-ai-software/.env*.local
+*.log
+.vercel/

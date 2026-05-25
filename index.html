@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Tejaskp AI Software</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="login-page-body">
+    <div class="bg-container">
+        <div class="bg-animation"></div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="header-logo">
+                <div class="logo-icon">
+                    <img src="logo.jpg" alt="Tejaskp AI Logo">
+                </div>
+                <h1>Tejaskp AI Software</h1>
+                <p class="welcome-text">Portal Login Access</p>
+            </div>
+
+            <!-- Login Role Tabs -->
+            <div class="login-tabs">
+                <button type="button" class="login-tab active" data-role="employee">
+                    <svg viewBox="0 0 24 24" class="tab-icon"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
+                    Employee
+                </button>
+                <button type="button" class="login-tab" data-role="admin">
+                    <svg viewBox="0 0 24 24" class="tab-icon"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,11.99H19C18.47,16.11 15.72,19.78 12,20.93V12H5V6.3L12,3.19V11.99Z"/></svg>
+                    Admin
+                </button>
+            </div>
+
+            <!-- Network Security Status & Simulator Card -->
+            <div class="network-status-card">
+                <div class="network-status-header" style="justify-content:space-between">
+                    <span style="display:flex;align-items:center;gap:8px">
+                        <span class="status-indicator-dot warning" id="loginNetDot"></span>
+                        <span id="loginNetText" style="font-size:0.85rem">Detecting Network...</span>
+                    </span>
+                    <span id="networkSecurityType" style="font-size:0.75rem;opacity:0.8;background:rgba(255,255,255,0.05);padding:2px 8px;border-radius:8px">🛡️ Real-time Guard</span>
+                </div>
+            </div>
+
+            <form id="loginForm" data-active-role="employee">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="name@tejaskp.ai" required>
+                    <p id="emailError" class="error-msg">Please enter a valid email.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password" id="togglePassword">Show</button>
+                    </div>
+                    <p id="passwordError" class="error-msg">Incorrect password.</p>
+                </div>
+
+                <div class="form-footer">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Login as Employee</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>©️ 2026 Tejaskp AI Software. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

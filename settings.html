@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Tejaskp AI Software</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="bg-container"><div class="bg-animation"></div></div>
+
+<div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon"><img src="logo.jpg" alt="Tejaskp AI Logo"></div>
+            <h2>Tejaskp AI</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="dashboard.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M3,13H11V3H3V13M3,21H11V15H3V21M13,21H21V11H13V21M13,3V9H21V3H13Z"/></svg><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="calendar.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M14,14H7V16H14M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M17,10H7V12H17V10Z"/></svg><span>Attendance</span></a></li>
+            <li class="nav-item"><a href="checkin.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/></svg><span>Check-In/Out</span></a></li>
+            <li class="nav-item"><a href="leave.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,19H5V5H7V7H17V5H19V19M16.5,12L15.1,10.6L12,13.7L10.4,12.1L9,13.5L12,16.5L16.5,12Z"/></svg><span>Leave Requests</span></a></li>
+
+            <li class="nav-item"><a href="report.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg><span>Report</span></a></li>
+            <li class="nav-item"><a href="admin.html" class="nav-link"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,11.99H19C18.47,16.11 15.72,19.78 12,20.93V12H5V6.3L12,3.19V11.99Z"/></svg><span>Admin Panel</span></a></li>
+            <li class="nav-item"><a href="settings.html" class="nav-link active"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/></svg><span>Settings</span></a></li>
+        </ul>
+        <a href="#" class="nav-link logout" id="logoutBtn"><svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z"/></svg><span>Logout</span></a>
+    </aside>
+
+    <main class="main-content">
+        <nav class="navbar">
+            <div><h2 style="font-size:1.3rem;font-weight:700">⚙️ Settings</h2><p style="font-size:0.8rem;color:var(--text-dim)">Manage your account & preferences</p></div>
+            <div class="nav-right">
+                <div class="date-time"><div class="current-time" id="currentTime">--:--</div><div class="current-date" id="currentDate">---</div></div>
+                <div class="profile-sm" id="topProfilePhoto"><svg viewBox="0 0 24 24" fill="var(--text-dim)" style="width:100%;height:100%"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg></div>
+            </div>
+        </nav>
+
+        <!-- Toast Notification -->
+        <div id="settingsToast" style="display:none;position:fixed;top:2rem;right:2rem;z-index:9999;background:var(--glass-bg);border:1px solid var(--success-green);border-radius:14px;padding:1rem 1.5rem;color:var(--success-green);font-weight:600;backdrop-filter:blur(10px);animation:slideIn 0.3s ease">✅ <span id="toastMsg">Saved successfully!</span></div>
+
+        <div class="settings-layout">
+            <!-- Left: Profile Card -->
+            <div class="settings-sidebar-card">
+                <div class="settings-profile-pic-wrap">
+                    <div class="settings-avatar" id="avatarPreview">
+                        <svg viewBox="0 0 24 24" fill="var(--text-dim)" style="width:60px;height:60px"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
+                    </div>
+                    <label for="photoUpload" class="settings-photo-btn">📷 Change Photo</label>
+                    <input type="file" id="photoUpload" accept="image/*" style="display:none">
+                </div>
+                <div style="text-align:center;margin-top:1rem">
+                    <div id="sidebarName" style="font-size:1.1rem;font-weight:700">---</div>
+                    <div id="sidebarId" style="font-size:0.85rem;color:var(--accent-blue);margin-top:0.3rem">---</div>
+                    <div id="sidebarDept" style="font-size:0.8rem;color:var(--text-dim);margin-top:0.3rem">---</div>
+                </div>
+                <hr style="border-color:var(--glass-border);margin:1.5rem 0">
+                <nav class="settings-nav">
+                    <a href="#section-profile" class="settings-nav-link active">👤 Edit Profile</a>
+                    <a href="#section-password" class="settings-nav-link">🔒 Change Password</a>
+                    <a href="#section-appearance" class="settings-nav-link">🎨 Appearance</a>
+                    <a href="#section-notifications" class="settings-nav-link">🔔 Notifications</a>
+                    <a href="#section-language" class="settings-nav-link">🌐 Language</a>
+                </nav>
+                <hr style="border-color:var(--glass-border);margin:1.5rem 0">
+                <button class="settings-logout-btn" id="settingsLogoutBtn">🚪 Logout</button>
+            </div>
+
+            <!-- Right: Settings Panels -->
+            <div class="settings-panels">
+
+                <!-- Edit Profile -->
+                <div class="settings-card" id="section-profile">
+                    <div class="settings-card-title">👤 Edit Profile</div>
+                    <div class="settings-grid">
+                        <div class="form-group"><label>Full Name</label><input type="text" id="sFullName" placeholder="Your full name"></div>
+                        <div class="form-group"><label>Employee ID</label><input type="text" id="sEmpId" readonly style="opacity:0.5;cursor:not-allowed"></div>
+                        <div class="form-group"><label>Email</label><input type="email" id="sEmail" placeholder="your@email.com"></div>
+                        <div class="form-group"><label>Phone</label><input type="tel" id="sPhone" placeholder="+91 00000 00000"></div>
+                        <div class="form-group"><label>Department</label>
+                            <select id="sDept">
+                                <option value="ai-ml">AI / Machine Learning</option>
+                                <option value="web-development">Web Development</option>
+                                <option value="ai-research">AI Research</option>
+                                <option value="engineering">Software Engineering</option>
+                                <option value="data-science">Data Science</option>
+                                <option value="product">Product Management</option>
+                                <option value="design">UI/UX Design</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Role</label><input type="text" id="sRole" readonly style="opacity:0.5;cursor:not-allowed"></div>
+                    </div>
+                    <button class="btn btn-primary" id="saveProfileBtn" style="max-width:180px;margin-top:0.5rem">Save Profile</button>
+                </div>
+
+                <!-- Change Password -->
+                <div class="settings-card" id="section-password">
+                    <div class="settings-card-title">🔒 Change Password</div>
+                    <div class="form-group"><label>Current Password</label><input type="password" id="curPass" placeholder="••••••••"></div>
+                    <div class="form-group"><label>New Password</label><input type="password" id="newPass" placeholder="••••••••"></div>
+                    <div class="strength-bar-wrap"><div class="strength-bar" id="passStrengthBar"></div></div>
+                    <div id="passStrengthLabel" style="font-size:0.8rem;color:var(--text-dim);margin-bottom:1rem">Password strength</div>
+                    <div class="form-group"><label>Confirm New Password</label><input type="password" id="confPass" placeholder="••••••••"></div>
+                    <button class="btn btn-primary" id="changePassBtn" style="max-width:200px">Change Password</button>
+                </div>
+
+                <!-- Appearance -->
+                <div class="settings-card" id="section-appearance">
+                    <div class="settings-card-title">🎨 Appearance</div>
+                    <div class="settings-toggle-row">
+                        <div><div style="font-weight:600">Dark / Light Mode</div><div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.3rem">Toggle between dark and light theme</div></div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="themeToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="settings-toggle-row" style="margin-top:1rem">
+                        <div><div style="font-weight:600">Compact Sidebar</div><div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.3rem">Show icon-only sidebar</div></div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="sidebarToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="settings-card" id="section-notifications">
+                    <div class="settings-card-title">🔔 Notification Settings</div>
+                    <div class="settings-toggle-row">
+                        <div><div style="font-weight:600">Email Notifications</div><div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.3rem">Receive alerts via email</div></div>
+                        <label class="toggle-switch"><input type="checkbox" id="emailNotif" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div class="settings-toggle-row" style="margin-top:1rem">
+                        <div><div style="font-weight:600">Attendance Reminders</div><div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.3rem">Daily check-in/out reminders</div></div>
+                        <label class="toggle-switch"><input type="checkbox" id="attendNotif" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div class="settings-toggle-row" style="margin-top:1rem">
+                        <div><div style="font-weight:600">Leave Status Updates</div><div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.3rem">Get notified on leave approvals</div></div>
+                        <label class="toggle-switch"><input type="checkbox" id="leaveNotif" checked><span class="toggle-slider"></span></label>
+                    </div>
+                    <div class="settings-toggle-row" style="margin-top:1rem">
+                        <div><div style="font-weight:600">System Announcements</div><div style="font-size:0.85rem;color:var(--text-dim);margin-top:0.3rem">Company-wide notifications</div></div>
+                        <label class="toggle-switch"><input type="checkbox" id="sysNotif"><span class="toggle-slider"></span></label>
+                    </div>
+                    <button class="btn btn-primary" id="saveNotifBtn" style="max-width:200px;margin-top:1.5rem">Save Preferences</button>
+                </div>
+
+                <!-- Language -->
+                <div class="settings-card" id="section-language">
+                    <div class="settings-card-title">🌐 Language Settings</div>
+                    <div class="form-group"><label>Display Language</label>
+                        <select id="langSelect">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi (हिंदी)</option>
+                            <option value="mr">Marathi (मराठी)</option>
+                            <option value="gu">Gujarati (ગુજરાતી)</option>
+                            <option value="ta">Tamil (தமிழ்)</option>
+                            <option value="te">Telugu (తెలుగు)</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Date Format</label>
+                        <select id="dateFormat">
+                            <option value="dd-mm-yyyy">DD/MM/YYYY</option>
+                            <option value="mm-dd-yyyy">MM/DD/YYYY</option>
+                            <option value="yyyy-mm-dd">YYYY-MM-DD</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Time Format</label>
+                        <select id="timeFormat">
+                            <option value="12h">12-Hour (AM/PM)</option>
+                            <option value="24h">24-Hour</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="saveLangBtn" style="max-width:200px">Save Language</button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const session = JSON.parse(localStorage.getItem('session') || sessionStorage.getItem('session') || 'null');
+    if (!session) { window.location.href = 'index.html'; return; }
+
+    // Network Security Enforcer Check
+    const verifyNetworkSecurely = () => {
+        const authSSID = 'TEJASKP AI SOFTWARE_5G';
+        const isAdmin = session && session.role === 'admin';
+        if (isAdmin) return; // Admins bypass security checks
+
+        fetch('/api/network')
+            .then(res => res.json())
+            .then(data => {
+                const curIP = data.ip || '127.0.0.1';
+                const curSSID = data.ssid || 'Disconnected';
+                const isAuthorized = curSSID === authSSID;
+
+                const existingOverlay = document.getElementById('networkSecurityDeniedOverlay');
+                if (isAuthorized) {
+                    if (existingOverlay) existingOverlay.remove();
+                    return;
+                }
+
+                if (!existingOverlay) {
+                    const overlay = document.createElement('div');
+                    overlay.id = 'networkSecurityDeniedOverlay';
+                    overlay.className = 'network-denied-overlay';
+                    overlay.innerHTML = `
+                        <div style="background:rgba(8,12,20,0.95);border:1px solid rgba(255,255,255,0.08);padding:3rem;border-radius:24px;max-width:550px;box-shadow:0 20px 50px rgba(0,0,0,0.5);text-align:center">
+                            <span style="font-size:4rem;margin-bottom:1.5rem;display:inline-block">🛡️</span>
+                            <h2 style="font-size:1.8rem;font-weight:700;margin-bottom:1rem;color:var(--error-red)">Access Denied: Security Alert</h2>
+                            <p style="color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem">
+                                This portal is restricted. Your device is connected to an unauthorized network. Please connect to the company's private Wi-Fi.
+                            </p>
+                            <div style="text-align:left;background:rgba(0,0,0,0.3);padding:1rem;border-radius:12px;border:1px solid var(--glass-border);font-size:0.9rem;margin-bottom:1.5rem">
+                                <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem"><span>Required Wi-Fi SSID:</span><strong style="color:var(--accent-blue)">${authSSID}</strong></div>
+                                <div style="display:flex;justify-content:space-between;border-top:1px dashed rgba(255,255,255,0.1);padding-top:0.4rem;margin-top:0.4rem"><span>Your Connected Wi-Fi:</span><strong style="color:var(--error-red)" id="overlayYourSSID">${curSSID}</strong></div>
+                            </div>
+                            <button onclick="window.location.href='index.html'" class="btn btn-primary" style="max-width:180px">Return to Login</button>
+                        </div>
+                    `;
+                    document.body.appendChild(overlay);
+                } else {
+                    document.getElementById('overlayYourSSID').textContent = curSSID;
+                    document.getElementById('overlayYourIP').textContent = curIP;
+                }
+            })
+            .catch(err => {
+                console.error("Network check error:", err);
+                const existingOverlay = document.getElementById('networkSecurityDeniedOverlay');
+                if (!existingOverlay) {
+                    const overlay = document.createElement('div');
+                    overlay.id = 'networkSecurityDeniedOverlay';
+                    overlay.className = 'network-denied-overlay';
+                    overlay.innerHTML = `
+                        <div style="background:rgba(8,12,20,0.95);border:1px solid rgba(255,255,255,0.08);padding:3rem;border-radius:24px;max-width:550px;box-shadow:0 20px 50px rgba(0,0,0,0.5);text-align:center">
+                            <span style="font-size:4rem;margin-bottom:1.5rem;display:inline-block">⚠️</span>
+                            <h2 style="font-size:1.8rem;font-weight:700;margin-bottom:1rem;color:var(--error-red)">Security Connection Required</h2>
+                            <p style="color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem">
+                                Could not verify your local network status. Please run the secure portal server using:
+                            </p>
+                            <code style="display:block;background:black;padding:1rem;border-radius:8px;color:#00ff00;font-family:monospace;margin-bottom:1.5rem">node start-portal.js</code>
+                            <p style="color:var(--text-dim);font-size:0.85rem">
+                                Access is restricted to verify correct Wi-Fi connectivity.
+                            </p>
+                        </div>
+                    `;
+                    document.body.appendChild(overlay);
+                }
+            });
+    };
+    verifyNetworkSecurely();
+    setInterval(verifyNetworkSecurely, 5000);
+
+
+
+    // Admin Link Visibility
+    const adminLink = document.querySelector('a[href="admin.html"]');
+    if (adminLink && session.role !== 'admin') {
+        adminLink.parentElement.style.display = 'none';
+    }
+
+    // Clock
+    const tick = () => { const n=new Date(); document.getElementById('currentTime').textContent=n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); document.getElementById('currentDate').textContent=n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); };
+    setInterval(tick, 1000); tick();
+
+    // Toast
+    const showToast = (msg, isError = false) => {
+        const t = document.getElementById('settingsToast');
+        t.style.borderColor = isError ? 'var(--error-red)' : 'var(--success-green)';
+        t.style.color = isError ? 'var(--error-red)' : 'var(--success-green)';
+        document.getElementById('toastMsg').textContent = msg;
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
+    };
+
+    // Load profile
+    // Load profile
+    const loadProfile = () => {
+        const isAdmin = session.role === 'admin';
+        const emp = JSON.parse(localStorage.getItem('employee_' + session.email) || '{}');
+        document.getElementById('sFullName').value = session.name || '';
+        document.getElementById('sEmpId').value = session.empId || '';
+        document.getElementById('sEmail').value = session.email || '';
+        document.getElementById('sPhone').value = emp.phone || '';
+        document.getElementById('sDept').value = emp.dept || 'engineering';
+        document.getElementById('sRole').value = isAdmin ? 'Admin' : (emp.role || 'Employee');
+        document.getElementById('sidebarName').textContent = session.name || 'Employee';
+        document.getElementById('sidebarId').textContent = session.empId || '';
+        const deptMap = {'ai-ml':'AI/ML','web-development':'Web Dev','ai-research':'AI Research','engineering':'Engineering','data-science':'Data Science','product':'Product','design':'Design'};
+        document.getElementById('sidebarDept').textContent = isAdmin ? 'Management' : (deptMap[emp.dept] || 'Staff');
+        if (session.photo) {
+            document.getElementById('avatarPreview').innerHTML = `<img src="${session.photo}" style="width:100%;height:100%;object-fit:cover">`;
+            document.getElementById('topProfilePhoto').innerHTML = `<img src="${session.photo}" alt="Profile">`;
+        }
+    };
+    loadProfile();
+
+    // Photo upload
+    document.getElementById('photoUpload').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const src = ev.target.result;
+            document.getElementById('avatarPreview').innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover">`;
+            document.getElementById('topProfilePhoto').innerHTML = `<img src="${src}" alt="Profile">`;
+            session.photo = src;
+            const persistent = localStorage.getItem('session');
+            if (persistent) localStorage.setItem('session', JSON.stringify(session));
+            else sessionStorage.setItem('session', JSON.stringify(session));
+            // Update employee record
+            const emp = JSON.parse(localStorage.getItem('employee_' + session.email) || '{}');
+            emp.photo = src;
+            localStorage.setItem('employee_' + session.email, JSON.stringify(emp));
+            showToast('Profile photo updated!');
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Save profile
+    document.getElementById('saveProfileBtn').addEventListener('click', () => {
+        const name = document.getElementById('sFullName').value.trim();
+        const email = document.getElementById('sEmail').value.trim();
+        const phone = document.getElementById('sPhone').value.trim();
+        const dept = document.getElementById('sDept').value;
+        if (!name || !email) { showToast('Name and email required!', true); return; }
+        
+        const oldEmail = session.email;
+        const isEmailChanged = oldEmail !== email;
+        const isSystemAdmin = session.role === 'admin';
+
+        // Check if new email is already taken by another user
+        if (isEmailChanged) {
+            if (localStorage.getItem('employee_' + email)) {
+                showToast('Email already in use!', true);
+                return;
+            }
+            const currentAdminEmail = localStorage.getItem('admin_email') || 'mugdaljeet27@gamil.com';
+            if (email === currentAdminEmail && !isSystemAdmin) {
+                showToast('Email already in use!', true);
+                return;
+            }
+        }
+
+        session.name = name;
+        session.email = email;
+        const persistent = localStorage.getItem('session');
+        if (persistent) localStorage.setItem('session', JSON.stringify(session));
+        else sessionStorage.setItem('session', JSON.stringify(session));
+
+        if (isSystemAdmin) {
+            // Update admin email login credentials
+            localStorage.setItem('admin_email', email);
+            
+            // Sync to employee record (so they have employee profile details saved too)
+            const emp = JSON.parse(localStorage.getItem('employee_' + oldEmail) || '{}');
+            emp.fullName = name; emp.email = email; emp.phone = phone; emp.dept = dept; emp.empId = session.empId; emp.role = 'admin';
+            localStorage.setItem('employee_' + email, JSON.stringify(emp));
+            if (isEmailChanged) {
+                localStorage.removeItem('employee_' + oldEmail);
+            }
+        } else {
+            // Update regular employee record
+            const emp = JSON.parse(localStorage.getItem('employee_' + oldEmail) || '{}');
+            emp.fullName = name; emp.email = email; emp.phone = phone; emp.dept = dept;
+            localStorage.setItem('employee_' + email, JSON.stringify(emp));
+            if (isEmailChanged) {
+                localStorage.removeItem('employee_' + oldEmail);
+            }
+        }
+
+        document.getElementById('sidebarName').textContent = name;
+        showToast('Profile saved successfully!');
+        loadProfile();
+    });
+
+    // Password strength
+    document.getElementById('newPass').addEventListener('input', (e) => {
+        const val = e.target.value;
+        const bar = document.getElementById('passStrengthBar');
+        const label = document.getElementById('passStrengthLabel');
+        if (val.length === 0) { bar.style.width = '0'; label.textContent = 'Password strength'; return; }
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+        if (score <= 1) { bar.className='strength-bar strength-weak'; label.textContent='Weak'; label.style.color='var(--error-red)'; }
+        else if (score <= 3) { bar.className='strength-bar strength-medium'; label.textContent='Medium'; label.style.color='#ffcc00'; }
+        else { bar.className='strength-bar strength-strong'; label.textContent='Strong'; label.style.color='var(--success-green)'; }
+    });
+
+    // Change password
+    document.getElementById('changePassBtn').addEventListener('click', () => {
+        const cur = document.getElementById('curPass').value;
+        const newP = document.getElementById('newPass').value;
+        const conf = document.getElementById('confPass').value;
+        if (!cur || !newP || !conf) { showToast('All fields required!', true); return; }
+        if (newP !== conf) { showToast('Passwords do not match!', true); return; }
+        if (newP.length < 6) { showToast('Password must be at least 6 characters!', true); return; }
+
+        const isSystemAdmin = session.role === 'admin';
+
+        if (isSystemAdmin) {
+            const currentAdminPass = localStorage.getItem('admin_password') || 'Jeet@2627';
+            if (cur !== currentAdminPass) {
+                showToast('Current password incorrect!', true);
+                return;
+            }
+            localStorage.setItem('admin_password', newP);
+            
+            // Sync with profile
+            const emp = JSON.parse(localStorage.getItem('employee_' + session.email) || '{}');
+            emp.password = btoa(newP);
+            localStorage.setItem('employee_' + session.email, JSON.stringify(emp));
+        } else {
+            const emp = JSON.parse(localStorage.getItem('employee_' + session.email) || '{}');
+            if (emp.password && atob(emp.password) !== cur) { showToast('Current password incorrect!', true); return; }
+            emp.password = btoa(newP);
+            localStorage.setItem('employee_' + session.email, JSON.stringify(emp));
+        }
+
+        document.getElementById('curPass').value = '';
+        document.getElementById('newPass').value = '';
+        document.getElementById('confPass').value = '';
+        showToast('Password changed successfully!');
+    });
+
+    // Theme toggle
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('themeToggle').checked = true;
+    }
+    document.getElementById('themeToggle').addEventListener('change', (e) => {
+        if (e.target.checked) { document.body.classList.add('light-mode'); localStorage.setItem('theme','light'); }
+        else { document.body.classList.remove('light-mode'); localStorage.setItem('theme','dark'); }
+        showToast('Theme updated!');
+    });
+
+    // Notification prefs
+    const notifPrefs = JSON.parse(localStorage.getItem('notif_prefs') || '{"email":true,"attend":true,"leave":true,"sys":false}');
+    document.getElementById('emailNotif').checked = notifPrefs.email;
+    document.getElementById('attendNotif').checked = notifPrefs.attend;
+    document.getElementById('leaveNotif').checked = notifPrefs.leave;
+    document.getElementById('sysNotif').checked = notifPrefs.sys;
+    document.getElementById('saveNotifBtn').addEventListener('click', () => {
+        localStorage.setItem('notif_prefs', JSON.stringify({ email: document.getElementById('emailNotif').checked, attend: document.getElementById('attendNotif').checked, leave: document.getElementById('leaveNotif').checked, sys: document.getElementById('sysNotif').checked }));
+        showToast('Notification preferences saved!');
+    });
+
+    // Language prefs
+    const langPrefs = JSON.parse(localStorage.getItem('lang_prefs') || '{"lang":"en","date":"dd-mm-yyyy","time":"12h"}');
+    document.getElementById('langSelect').value = langPrefs.lang;
+    document.getElementById('dateFormat').value = langPrefs.date;
+    document.getElementById('timeFormat').value = langPrefs.time;
+    document.getElementById('saveLangBtn').addEventListener('click', () => {
+        localStorage.setItem('lang_prefs', JSON.stringify({ lang: document.getElementById('langSelect').value, date: document.getElementById('dateFormat').value, time: document.getElementById('timeFormat').value }));
+        showToast('Language settings saved!');
+    });
+
+    // Smooth scroll for settings nav
+    document.querySelectorAll('.settings-nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelectorAll('.settings-nav-link').forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', e => { e.preventDefault(); localStorage.removeItem('session'); sessionStorage.removeItem('session'); window.location.href = 'index.html'; });
+    document.getElementById('settingsLogoutBtn').addEventListener('click', () => { localStorage.removeItem('session'); sessionStorage.removeItem('session'); window.location.href = 'index.html'; });
+});
+</script>
+</body>
+</html>

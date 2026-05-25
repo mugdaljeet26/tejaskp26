@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-In / Check-Out | Tejaskp AI Software</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="bg-container">
+        <div class="bg-animation"></div>
+    </div>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon"><img src="logo.jpg" alt="Tejaskp AI Logo"></div>
+                <h2>Tejaskp AI</h2>
+            </div>
+
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M3,13H11V3H3V13M3,21H11V15H3V21M13,21H21V11H13V21M13,3V9H21V3H13Z"/></svg>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="calendar.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M14,14H7V16H14M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M17,10H7V12H17V10Z"/></svg>
+                        <span>Attendance</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="checkin.html" class="nav-link active">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/></svg>
+                        <span>Check-In / Check-Out</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="leave.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,19H5V5H7V7H17V5H19V19M16.5,12L15.1,10.6L12,13.7L10.4,12.1L9,13.5L12,16.5L16.5,12Z"/></svg>
+                        <span>Leave Requests</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="documents.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: currentColor;"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M12.5,18H11.5V13.5H9L12,10.5L15,13.5H12.5V18M13,9V3.5L18.5,9H13Z"/></svg>
+                        <span>Weekly Submission</span>
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a href="report.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>
+                        <span>Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="admin.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,11.99H19C18.47,16.11 15.72,19.78 12,20.93V12H5V6.3L12,3.19V11.99Z"/></svg>
+                        <span>Admin Panel</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">
+                        <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"/></svg>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <a href="#" class="nav-link logout" id="logoutBtnSidebar">
+                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor"><path d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z"/></svg>
+                <span>Logout</span>
+            </a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <nav class="navbar">
+                <div>
+                    <h2 style="font-size: 1.3rem; font-weight: 700;">Check-In / Check-Out</h2>
+                    <p style="font-size: 0.8rem; color: var(--text-dim);">Attendance Tracking System</p>
+                </div>
+                <div class="nav-right">
+                    <div class="date-time">
+                        <div class="current-time" id="currentTime">--:-- --</div>
+                        <div class="current-date" id="currentDate">---</div>
+                    </div>
+                    <div class="profile-sm" id="topProfilePhoto">
+                        <svg viewBox="0 0 24 24" fill="var(--text-dim)" style="width:100%;height:100%">
+                            <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Live Digital Clock -->
+            <div class="checkin-clock-section">
+                <div class="digital-clock" id="bigClock">00:00:00</div>
+                <div class="clock-date" id="bigDate">Tuesday, May 13, 2026</div>
+            </div>
+
+            <!-- Employee Info & Status -->
+            <div class="checkin-info-row">
+                <div class="checkin-info-card">
+                    <div class="checkin-info-label">Employee</div>
+                    <div class="checkin-info-value" id="empName">---</div>
+                </div>
+                <div class="checkin-info-card">
+                    <div class="checkin-info-label">Employee ID</div>
+                    <div class="checkin-info-value" id="empId">---</div>
+                </div>
+                <div class="checkin-info-card">
+                    <div class="checkin-info-label">Status</div>
+                    <div class="checkin-info-value" id="attendanceStatus">
+                        <span class="status-badge status-none">Not Checked In</span>
+                    </div>
+                </div>
+                <div class="checkin-info-card">
+                    <div class="checkin-info-label">Location</div>
+                    <div class="checkin-info-value" id="gpsLocation" style="font-size: 0.85rem;">
+                        <span style="color: var(--text-dim);">Fetching...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check-In / Check-Out Buttons -->
+            <div class="checkin-actions">
+                <button class="checkin-btn checkin-in" id="checkInBtn">
+                    <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:currentColor"><path d="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>
+                    <span>Check In</span>
+                </button>
+                <button class="checkin-btn checkin-out" id="checkOutBtn" disabled>
+                    <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:currentColor"><path d="M17,17.25V14H10V10H17V6.75L22.25,12L17,17.25M13,2A2,2 0 0,1 15,4V8H13V4H4V20H13V16H15V20A2,2 0 0,1 13,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2H13Z"/></svg>
+                    <span>Check Out</span>
+                </button>
+            </div>
+
+            <!-- Working Duration Display -->
+            <div class="duration-display" id="durationSection" style="display: none;">
+                <div class="duration-label">Working Duration</div>
+                <div class="duration-timer" id="durationTimer">00:00:00</div>
+                <div class="duration-details">
+                    <span>In: <strong id="inTimeDisplay">--:--</strong></span>
+                    <span>Out: <strong id="outTimeDisplay">--:--</strong></span>
+                    <span>Total: <strong id="totalHoursDisplay">--:--</strong></span>
+                </div>
+            </div>
+
+            <!-- Attendance History Table -->
+            <div class="checkin-history">
+                <div class="history-header">
+                    <h3>Attendance History</h3>
+                    <button class="btn btn-secondary" id="exportPdfBtn" style="width: auto; padding: 0.5rem 1.5rem; font-size: 0.85rem;">
+                        <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;vertical-align:middle;margin-right:6px"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
+                        Export PDF
+                    </button>
+                </div>
+                <div class="table-wrapper">
+                    <table class="attendance-table" id="attendanceTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Check-In</th>
+                                <th>Check-Out</th>
+                                <th>Total Hours</th>
+                                <th>Status</th>
+                                <th>Location</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceBody">
+                            <!-- Dynamic Rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ─── Session Check ───
+        const session = JSON.parse(localStorage.getItem('session') || sessionStorage.getItem('session') || 'null');
+        if (!session) { window.location.href = 'index.html'; return; }
+
+        // Network Security Enforcer Check
+        const verifyNetworkSecurely = () => {
+            const authSSID = 'TEJASKP AI SOFTWARE_5G';
+            const isAdmin = session && session.role === 'admin';
+            if (isAdmin) return; // Admins bypass security checks
+
+            fetch('/api/network')
+                .then(res => res.json())
+                .then(data => {
+                    const curSSID = data.ssid || 'Disconnected';
+                    const isAuthorized = curSSID === authSSID;
+
+                    const existingOverlay = document.getElementById('networkSecurityDeniedOverlay');
+                    if (isAuthorized) {
+                        if (existingOverlay) existingOverlay.remove();
+                        return;
+                    }
+
+                    if (!existingOverlay) {
+                        const overlay = document.createElement('div');
+                        overlay.id = 'networkSecurityDeniedOverlay';
+                        overlay.className = 'network-denied-overlay';
+                        overlay.innerHTML = `
+                            <div style="background:rgba(8,12,20,0.95);border:1px solid rgba(255,255,255,0.08);padding:3rem;border-radius:24px;max-width:550px;box-shadow:0 20px 50px rgba(0,0,0,0.5);text-align:center">
+                                <span style="font-size:4rem;margin-bottom:1.5rem;display:inline-block">🛡️</span>
+                                <h2 style="font-size:1.8rem;font-weight:700;margin-bottom:1rem;color:var(--error-red)">Access Denied: Security Alert</h2>
+                                <p style="color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem">
+                                    This portal is restricted. Your device is connected to an unauthorized network. Please connect to the company's private Wi-Fi.
+                                </p>
+                                <div style="text-align:left;background:rgba(0,0,0,0.3);padding:1rem;border-radius:12px;border:1px solid var(--glass-border);font-size:0.9rem;margin-bottom:1.5rem">
+                                    <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem"><span>Required Wi-Fi SSID:</span><strong style="color:var(--accent-blue)">${authSSID}</strong></div>
+                                    <div style="display:flex;justify-content:space-between;border-top:1px dashed rgba(255,255,255,0.1);padding-top:0.4rem;margin-top:0.4rem"><span>Your Connected Wi-Fi:</span><strong style="color:var(--error-red)">${curSSID}</strong></div>
+                                </div>
+                                <button onclick="window.location.href='index.html'" class="btn btn-primary" style="max-width:180px">Return to Login</button>
+                            </div>
+                        `;
+                        document.body.appendChild(overlay);
+                        document.getElementById('overlayYourSSID').textContent = curSSID;
+                        document.getElementById('overlayYourIP').textContent = curIP;
+                    }
+                })
+                .catch(err => {
+                    console.error("Network check error:", err);
+                    const existingOverlay = document.getElementById('networkSecurityDeniedOverlay');
+                    if (!existingOverlay) {
+                        const overlay = document.createElement('div');
+                        overlay.id = 'networkSecurityDeniedOverlay';
+                        overlay.className = 'network-denied-overlay';
+                        overlay.innerHTML = `
+                            <div style="background:rgba(8,12,20,0.95);border:1px solid rgba(255,255,255,0.08);padding:3rem;border-radius:24px;max-width:550px;box-shadow:0 20px 50px rgba(0,0,0,0.5);text-align:center">
+                                <span style="font-size:4rem;margin-bottom:1.5rem;display:inline-block">⚠️</span>
+                                <h2 style="font-size:1.8rem;font-weight:700;margin-bottom:1rem;color:var(--error-red)">Security Connection Required</h2>
+                                <p style="color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem">
+                                    Could not verify your local network status. Please run the secure portal server using:
+                                </p>
+                                <code style="display:block;background:black;padding:1rem;border-radius:8px;color:#00ff00;font-family:monospace;margin-bottom:1.5rem">node start-portal.js</code>
+                                <p style="color:var(--text-dim);font-size:0.85rem">
+                                    Access is restricted to verify correct Wi-Fi connectivity.
+                                </p>
+                            </div>
+                        `;
+                        document.body.appendChild(overlay);
+                    }
+                });
+        };
+        verifyNetworkSecurely();
+        setInterval(verifyNetworkSecurely, 5000);
+
+
+
+        document.getElementById('empName').textContent = session.name;
+        document.getElementById('empId').textContent = session.empId;
+        if (session.photo) {
+            document.getElementById('topProfilePhoto').innerHTML = `<img src="${session.photo}" alt="Profile">`;
+        }
+
+        // Admin Link Visibility
+        const adminLink = document.querySelector('a[href="admin.html"]');
+        if (adminLink && session.role !== 'admin') {
+            adminLink.parentElement.style.display = 'none';
+        }
+
+        // ─── Live Clock ───
+        const updateClock = () => {
+            const now = new Date();
+            document.getElementById('bigClock').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('bigDate').textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        };
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ─── GPS Location ───
+        let currentLocation = 'Location unavailable';
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude.toFixed(4);
+                    const lon = pos.coords.longitude.toFixed(4);
+                    currentLocation = `${lat}, ${lon}`;
+                    document.getElementById('gpsLocation').innerHTML = `<span style="color:var(--success-green);">📍 ${lat}, ${lon}</span>`;
+                },
+                () => {
+                    document.getElementById('gpsLocation').innerHTML = `<span style="color:var(--error-red);">⚠ Location denied</span>`;
+                }
+            );
+        }
+
+        // ─── Attendance Storage Key ───
+        const storageKey = `attendance_${session.empId}`;
+        const getLocalDateStr = (d = new Date()) => {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        };
+        const todayStr = getLocalDateStr();
+
+        const getRecords = () => JSON.parse(localStorage.getItem(storageKey) || '[]');
+        const saveRecords = (records) => localStorage.setItem(storageKey, JSON.stringify(records));
+        const getTodayRecord = () => getRecords().find(r => r.date === todayStr);
+
+        // ─── Duration Timer ───
+        let durationInterval = null;
+        const startDurationTimer = (checkInTime) => {
+            document.getElementById('durationSection').style.display = 'flex';
+            durationInterval = setInterval(() => {
+                const elapsed = Date.now() - new Date(checkInTime).getTime();
+                const hrs = String(Math.floor(elapsed / 3600000)).padStart(2, '0');
+                const mins = String(Math.floor((elapsed % 3600000) / 60000)).padStart(2, '0');
+                const secs = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
+                document.getElementById('durationTimer').textContent = `${hrs}:${mins}:${secs}`;
+            }, 1000);
+        };
+
+        // ─── Determine Attendance Status ───
+        const getStatus = (checkInTimeStr) => {
+            const checkIn = new Date(checkInTimeStr);
+            const h = checkIn.getHours();
+            const m = checkIn.getMinutes();
+            const totalMin = h * 60 + m;
+            if (totalMin <= 9 * 60) return 'Present'; // Before 9:00 AM
+            if (totalMin <= 10 * 60 + 30) return 'Late'; // Before 10:30 AM
+            return 'Half Day';
+        };
+
+        const statusBadgeHTML = (status) => {
+            const colors = { 'Present': 'status-present', 'Late': 'status-late', 'Half Day': 'status-half', 'Not Checked In': 'status-none' };
+            return `<span class="status-badge ${colors[status] || 'status-none'}">${status}</span>`;
+        };
+
+        // ─── Update UI State ───
+        const updateUI = () => {
+            const today = getTodayRecord();
+            const checkInBtn = document.getElementById('checkInBtn');
+            const checkOutBtn = document.getElementById('checkOutBtn');
+
+            if (today && today.checkIn && !today.checkOut) {
+                // Checked In, not checked out
+                checkInBtn.disabled = true;
+                checkInBtn.classList.add('disabled');
+                checkOutBtn.disabled = false;
+                checkOutBtn.classList.remove('disabled');
+                document.getElementById('inTimeDisplay').textContent = new Date(today.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('outTimeDisplay').textContent = '--:--';
+                document.getElementById('attendanceStatus').innerHTML = statusBadgeHTML(getStatus(today.checkIn));
+                startDurationTimer(today.checkIn);
+            } else if (today && today.checkOut) {
+                // Already checked out
+                checkInBtn.disabled = true;
+                checkInBtn.classList.add('disabled');
+                checkOutBtn.disabled = true;
+                checkOutBtn.classList.add('disabled');
+                if (durationInterval) clearInterval(durationInterval);
+                document.getElementById('durationSection').style.display = 'flex';
+                document.getElementById('durationTimer').textContent = today.totalHours;
+                document.getElementById('inTimeDisplay').textContent = new Date(today.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('outTimeDisplay').textContent = new Date(today.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('totalHoursDisplay').textContent = today.totalHours;
+                document.getElementById('attendanceStatus').innerHTML = statusBadgeHTML(today.status);
+            } else {
+                // Fresh day
+                checkInBtn.disabled = false;
+                checkInBtn.classList.remove('disabled');
+                checkOutBtn.disabled = true;
+                checkOutBtn.classList.add('disabled');
+                document.getElementById('attendanceStatus').innerHTML = statusBadgeHTML('Not Checked In');
+            }
+
+            renderHistory();
+        };
+
+        // ─── Check In ───
+        document.getElementById('checkInBtn').addEventListener('click', () => {
+            const today = getTodayRecord();
+            if (today) { alert('Already checked in today!'); return; }
+
+            const now = new Date();
+            const records = getRecords();
+            records.push({
+                empId: session.empId,
+                empName: session.name,
+                date: todayStr,
+                checkIn: now.toISOString(),
+                checkOut: null,
+                totalHours: null,
+                status: getStatus(now.toISOString()),
+                location: currentLocation
+            });
+            saveRecords(records);
+            updateUI();
+        });
+
+        // ─── Check Out ───
+        document.getElementById('checkOutBtn').addEventListener('click', () => {
+            const records = getRecords();
+            const todayIdx = records.findIndex(r => r.date === todayStr);
+            if (todayIdx === -1 || records[todayIdx].checkOut) { alert('Cannot check out without checking in first!'); return; }
+
+            const now = new Date();
+            const checkIn = new Date(records[todayIdx].checkIn);
+            const elapsed = now.getTime() - checkIn.getTime();
+            const hrs = String(Math.floor(elapsed / 3600000)).padStart(2, '0');
+            const mins = String(Math.floor((elapsed % 3600000) / 60000)).padStart(2, '0');
+            const secs = String(Math.floor((elapsed % 60000) / 1000)).padStart(2, '0');
+
+            records[todayIdx].checkOut = now.toISOString();
+            records[todayIdx].totalHours = `${hrs}:${mins}:${secs}`;
+            saveRecords(records);
+            updateUI();
+        });
+
+        // ─── Render History Table ───
+        const renderHistory = () => {
+            const records = getRecords().slice().reverse();
+            const tbody = document.getElementById('attendanceBody');
+            tbody.innerHTML = '';
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:2rem;">No attendance records yet.</td></tr>';
+                return;
+            }
+            records.forEach(r => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(r.date + 'T00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                    <td>${r.checkIn ? new Date(r.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '--'}</td>
+                    <td>${r.checkOut ? new Date(r.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '--'}</td>
+                    <td>${r.totalHours || 'In Progress'}</td>
+                    <td>${statusBadgeHTML(r.status)}</td>
+                    <td style="font-size: 0.8rem;">${r.location || '--'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        };
+
+        // ─── Export PDF ───
+        document.getElementById('exportPdfBtn').addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.setTextColor(0, 242, 255);
+            doc.text('Tejaskp AI Software', 14, 20);
+            doc.setFontSize(11);
+            doc.setTextColor(160, 160, 160);
+            doc.text('Attendance Report', 14, 28);
+            doc.text(`Employee: ${session.name} (${session.empId})`, 14, 35);
+            doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 42);
+
+            const records = getRecords();
+            const tableData = records.map(r => [
+                r.date,
+                r.checkIn ? new Date(r.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--',
+                r.checkOut ? new Date(r.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--',
+                r.totalHours || 'In Progress',
+                r.status,
+                r.location || '--'
+            ]);
+
+            doc.autoTable({
+                startY: 50,
+                head: [['Date', 'Check-In', 'Check-Out', 'Total Hours', 'Status', 'Location']],
+                body: tableData,
+                theme: 'grid',
+                headStyles: { fillColor: [0, 242, 255], textColor: [5, 7, 10], fontStyle: 'bold' },
+                styles: { fontSize: 9, cellPadding: 4 },
+                alternateRowStyles: { fillColor: [240, 240, 240] }
+            });
+
+            doc.save(`Attendance_${session.empId}_${todayStr}.pdf`);
+        });
+
+        // ─── Logout ───
+        document.getElementById('logoutBtnSidebar').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('session');
+            sessionStorage.removeItem('session');
+            window.location.href = 'index.html';
+        });
+
+        // ─── Initialize ───
+        updateUI();
+    });
+    </script>
+</body>
+</html>
