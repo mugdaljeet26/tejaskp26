@@ -113,86 +113,80 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (loginForm) {
-        loginForm.addEventListener('submit', (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const passwordRaw = document.getElementById('password').value;
-            const password = btoa(passwordRaw);
             const rememberMe = document.getElementById('rememberMe').checked;
             const selectedRole = loginForm.dataset.activeRole || 'employee';
 
+            // Dynamic API base — localhost uses port 5000, Vercel uses same origin
+            const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                ? 'http://localhost:5000'
+                : window.location.origin;
 
+            // Clear previous errors
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
 
-            // Admin Check
-            const adminEmail = 'tejaskp@gmail.com';
-            const adminPass = 'tejas@1234';
+            const loginBtn = loginForm.querySelector('.btn-primary');
+            loginBtn.textContent = 'Logging in...';
+            loginBtn.disabled = true;
 
-            if (selectedRole === 'admin') {
-                if (email === adminEmail && passwordRaw === adminPass) {
-                    const sessionData = {
-                        email: adminEmail,
-                        name: 'System Admin',
-                        empId: 'TSPK-ADMIN',
-                        role: 'admin',
-                        photo: null,
-                        loggedInAt: new Date().toISOString()
-                    };
-                    if (rememberMe) localStorage.setItem('session', JSON.stringify(sessionData));
-                    else sessionStorage.setItem('session', JSON.stringify(sessionData));
+            try {
+                const res = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password: passwordRaw })
+                });
+                const data = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(data.message || 'Invalid credentials');
+                }
+
+                // Role check
+                if (selectedRole === 'admin' && data.role !== 'admin') {
+                    throw new Error('This account is not an admin. Please use Employee tab.');
+                }
+                if (selectedRole === 'employee' && data.role === 'admin') {
+                    throw new Error('This is an admin account. Please use Admin tab.');
+                }
+
+                // Build session with JWT token
+                const sessionData = {
+                    _id: data._id,
+                    email: data.email,
+                    name: data.name,
+                    empId: data.empId,
+                    dept: data.dept,
+                    role: data.role,
+                    photo: data.photo,
+                    token: data.token,
+                    loggedInAt: new Date().toISOString()
+                };
+
+                if (rememberMe) {
+                    localStorage.setItem('session', JSON.stringify(sessionData));
+                } else {
+                    sessionStorage.setItem('session', JSON.stringify(sessionData));
+                }
+
+                // Redirect
+                if (data.role === 'admin') {
                     window.location.href = 'admin.html';
-                    return;
                 } else {
-                    document.getElementById('emailError').textContent = 'Invalid Admin credentials.';
-                    document.getElementById('emailError').style.display = 'block';
-                    return;
+                    window.location.href = 'dashboard.html';
                 }
-            }
 
-            // Regular Employee Check
-            const storedUser = localStorage.getItem('employee_' + email);
-            
-            if (storedUser) {
-                const user = JSON.parse(storedUser);
-                const userRole = user.role || 'employee';
+            } catch (err) {
+                loginBtn.textContent = selectedRole === 'admin' ? 'Login as Admin' : 'Login as Employee';
+                loginBtn.disabled = false;
 
-                if (user.password === password) {
-                    // Check role match
-                    if (userRole !== selectedRole) {
-                        const errorMsg = document.getElementById('emailError');
-                        errorMsg.textContent = `This account is registered as ${userRole}. Please use the correct tab.`;
-                        errorMsg.style.display = 'block';
-                        return;
-                    }
-
-                    // Successful Login
-                    const sessionData = {
-                        email: user.email,
-                        name: user.fullName,
-                        empId: user.empId,
-                        role: userRole,
-                        photo: user.photo,
-                        loggedInAt: new Date().toISOString()
-                    };
-                    
-                    if (rememberMe) {
-                        localStorage.setItem('session', JSON.stringify(sessionData));
-                    } else {
-                        sessionStorage.setItem('session', JSON.stringify(sessionData));
-                    }
-
-                    // Redirect based on role
-                    if (userRole === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'dashboard.html';
-                    }
-                } else {
-                    document.getElementById('passwordError').style.display = 'block';
-                    document.getElementById('passwordError').textContent = 'Incorrect password.';
-                }
-            } else {
-                document.getElementById('emailError').style.display = 'block';
-                document.getElementById('emailError').textContent = 'Account not found. Please register.';
+                // Show the error
+                const emailErr = document.getElementById('emailError');
+                emailErr.textContent = err.message;
+                emailErr.style.display = 'block';
             }
         });
     }
@@ -277,8 +271,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    // Run security check on load and periodically
-    verifyNetworkSecurely();
-    setInterval(verifyNetworkSecurely, 5000);
+    // Run security check ONLY on localhost (start-portal.js environment)
+    // On Vercel / production, skip this entirely
+    const isLocalPortal = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+
+    if (isLocalPortal) {
+        verifyNetworkSecurely();
+        setInterval(verifyNetworkSecurely, 5000);
+    } else {
+        // On Vercel — just show the network dot as connected (no restriction)
+        const loginNetDot = document.getElementById('loginNetDot');
+        const loginNetText = document.getElementById('loginNetText');
+        if (loginNetDot) loginNetDot.className = 'status-indicator-dot success';
+        if (loginNetText) loginNetText.textContent = 'Online — Cloud Access';
+    }
 
 });
