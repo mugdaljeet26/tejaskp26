@@ -11,15 +11,15 @@ const connectDB = async () => {
 
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: 10000,
-            bufferCommands: false,
+            serverSelectionTimeoutMS: 10000
+            // NOTE: bufferCommands defaults to true — allows Mongoose to queue
+            // queries until connection is ready (required for serverless)
         });
         cachedConn = conn;
         console.log(`MongoDB Connected: ${conn.connection.host}`);
         return conn;
     } catch (error) {
         console.error(`MongoDB Error: ${error.message}`);
-        console.log('⚠️  Running without MongoDB — data will not be saved.');
         return null;
     }
 };
